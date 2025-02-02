@@ -1,25 +1,25 @@
-package clean.code.chapter14.refactored.step.by.step;
+package clean.code.chapter14.solution;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class StringArgumentMarshaler implements ArgumentMarshaler {
-  private String stringValue;
+import static clean.code.chapter14.solution.ArgsException.ErrorCode.MISSING_STRING;
 
-  @Override
+public class StringArgumentMarshaler implements ArgumentMarshaler {
+  private String stringValue = "";
+
   public void set(Iterator<String> currentArgument) throws ArgsException {
     try {
       stringValue = currentArgument.next();
     } catch (NoSuchElementException e) {
-      throw new ArgsException(ArgsException.ErrorCode.MISSING_STRING);
+      throw new ArgsException(MISSING_STRING);
     }
   }
 
   public static String getValue(ArgumentMarshaler am) {
-    if ((am != null) && am instanceof StringArgumentMarshaler) {
+    if (am != null && am instanceof StringArgumentMarshaler)
       return ((StringArgumentMarshaler) am).stringValue;
-    } else {
+    else
       return "";
-    }
   }
 }

@@ -1,25 +1,27 @@
-package clean.code.chapter14.refactored.step.by.step;
+package clean.code.chapter14.solution;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import static clean.code.chapter14.solution.ArgsException.ErrorCode.MISSING_BOOLEAN;
+
 public class BooleanArgumentMarshaler implements ArgumentMarshaler {
   private boolean booleanValue = false;
 
-  @Override
   public void set(Iterator<String> currentArgument) throws ArgsException {
+    String parameter = null;
     try {
-      booleanValue = new Boolean(currentArgument.next());
+      parameter = currentArgument.next();
+      booleanValue = Boolean.parseBoolean(parameter);
     } catch (NoSuchElementException e) {
-      throw new ArgsException(ArgsException.ErrorCode.MISSING_BOOLEAN);
+      throw new ArgsException(MISSING_BOOLEAN);
     }
   }
 
   public static boolean getValue(ArgumentMarshaler am) {
-    if ((am != null) && am instanceof BooleanArgumentMarshaler) {
+    if (am != null && am instanceof BooleanArgumentMarshaler)
       return ((BooleanArgumentMarshaler) am).booleanValue;
-    } else {
+    else
       return false;
-    }
   }
 }
